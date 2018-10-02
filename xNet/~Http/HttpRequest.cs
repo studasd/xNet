@@ -925,14 +925,23 @@ namespace xNet
         /// <exception cref="System.ArgumentNullException">Значение параметра <paramref name="address"/> равно <see langword="null"/>.</exception>
         /// <exception cref="System.ArgumentException">Значение параметра <paramref name="address"/> является пустой строкой.</exception>
         /// <exception cref="xNet.Net.HttpException">Ошибка при работе с HTTP-протоколом.</exception>
-        public HttpResponse Get(string address, RequestParams urlParams = null)
+        public HttpResponse Get(string address, RequestParams urlParams = null, string contentType = "")
         {
             if (urlParams != null)
             {
                 _temporaryUrlParams = urlParams;
             }
 
-            return Raw(HttpMethod.GET, address);
+			StringContent content = null;
+			if (contentType != "")
+			{
+				content = new StringContent("")
+				{
+					ContentType = contentType
+				};
+			}
+
+            return Raw(HttpMethod.GET, address, content);
         }
 
         /// <summary>
@@ -2452,12 +2461,13 @@ namespace xNet
             }
         }
 
-        private bool CanContainsRequestBody(HttpMethod method)
-        {
-            return
-                (method == HttpMethod.PUT) ||
-                (method == HttpMethod.POST) ||
-                (method == HttpMethod.DELETE);
+		private bool CanContainsRequestBody(HttpMethod method)
+		{
+			return
+				(method == HttpMethod.PUT) ||
+				(method == HttpMethod.POST) ||
+				(method == HttpMethod.DELETE) ||
+				(method == HttpMethod.GET);
         }
 
         #endregion
@@ -2761,12 +2771,13 @@ namespace xNet
 
             if (CanContainsRequestBody(method))
             {
-                if (contentLength > 0)
+                if (contentLength > 0 || (method == HttpMethod.GET && contentType != ""))
                 {
                     headers["Content-Type"] = contentType;
                 }
 
-                headers["Content-Length"] = contentLength.ToString();
+				if (method != HttpMethod.GET)
+					headers["Content-Length"] = contentLength.ToString();
             }
 
             #endregion
