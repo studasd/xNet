@@ -21,7 +21,7 @@ using System.Resources;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("3df078d0-a043-4e10-86da-40d19b11142b")]
+[assembly: Guid("14f078d0-a043-4e10-86da-40d19b111435")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //
@@ -33,6 +33,6 @@ using System.Resources;
 // Можно задать все значения или принять номер построения и номер редакции по умолчанию, 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.3.3.1")]
-[assembly: AssemblyFileVersion("3.3.3.1")]
+[assembly: AssemblyVersion("3.3.3.2")]
+[assembly: AssemblyFileVersion("3.3.3.2")]
 [assembly: NeutralResourcesLanguageAttribute("ru")]

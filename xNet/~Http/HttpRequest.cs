@@ -1499,6 +1499,47 @@ namespace xNet
             return Raw(method, uri, content);
         }
 
+		/// <summary>
+        /// Отправляет запрос HTTP-серверу.
+        /// </summary>
+        /// <param name="method">HTTP-метод запроса.</param>
+        /// <param name="address">Адрес интернет-ресурса.</param>
+        /// <param name="content">Контент, отправляемый HTTP-серверу, или значение <see langword="null"/>.</param>
+        /// <returns>Объект, предназначенный для загрузки ответа от HTTP-сервера.</returns>
+        /// <exception cref="System.ArgumentNullException">Значение параметра <paramref name="address"/> равно <see langword="null"/>.</exception>
+        /// <exception cref="System.ArgumentException">Значение параметра <paramref name="address"/> является пустой строкой.</exception>
+        /// <exception cref="xNet.Net.HttpException">Ошибка при работе с HTTP-протоколом.</exception>
+        public HttpResponse Raw(HttpMethod method, string address, string _content, string contentType = "")
+        {
+            #region Проверка параметров
+
+            if (address == null)
+            {
+                throw new ArgumentNullException("address");
+            }
+
+            if (address.Length == 0)
+            {
+                throw ExceptionHelper.EmptyString("address");
+            }
+
+            #endregion
+
+			StringContent content = null;
+			if (contentType != "")
+			{
+				content = new StringContent(_content)
+				{
+					ContentType = contentType
+				};
+			} else {
+				content = new StringContent(_content);
+			}
+
+            var uri = new Uri(address, UriKind.RelativeOrAbsolute);
+            return Raw(method, uri, content);
+        }
+
         /// <summary>
         /// Отправляет запрос HTTP-серверу.
         /// </summary>
