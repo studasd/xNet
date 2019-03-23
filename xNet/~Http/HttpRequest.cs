@@ -2666,8 +2666,9 @@ namespace xNet
                         sslStream = new SslStream(_connectionNetworkStream, false, SslCertificateValidatorCallback);
                     }
 
-                    sslStream.AuthenticateAsClient(address.Host);
-                    _connectionCommonStream = sslStream;
+					//sslStream.AuthenticateAsClient(address.Host);
+					sslStream.AuthenticateAsClient(address.Host, null, SslProtocols.Tls12, true);
+					_connectionCommonStream = sslStream;
                 }
                 catch (Exception ex)
                 {
